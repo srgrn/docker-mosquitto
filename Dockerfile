@@ -30,7 +30,7 @@ RUN buildDeps='git build-base libressl-dev libwebsockets-dev c-ares-dev util-lin
     patch -p1 < /libressl.patch && \
     make WITH_MEMORY_TRACKING=no WITH_SRV=yes WITH_WEBSOCKETS=yes WITH_TLS_PSK=no && \
     make install && \
-    git clone git://github.com/jpmens/mosquitto-auth-plug.git && \
+    git clone git://github.com/srgrn/mosquitto-auth-plug.git && \
     cd mosquitto-auth-plug && \
     cp config.mk.in config.mk && \
     sed -i "s/BACKEND_REDIS ?= no/BACKEND_REDIS ?= yes/" config.mk && \
