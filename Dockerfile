@@ -14,13 +14,18 @@ ENV MOSQUITTO_VERSION=v1.5
 COPY run.sh /
 COPY libressl.patch /
 #RUN buildDeps='git build-base alpine-sdk openssl-dev libwebsockets-dev c-ares-dev util-linux-dev hiredis-dev curl-dev libxslt docbook-xsl'; \
-RUN buildDeps='git build-base libressl-dev libwebsockets-dev c-ares-dev util-linux-dev hiredis-dev postgresql-dev curl-dev libxslt docbook-xsl'; \
+RUN buildDeps='cmake git build-base libressl-dev c-ares-dev util-linux-dev hiredis-dev postgresql-dev curl-dev libxslt docbook-xsl'; \
     chmod +x /run.sh && \
     mkdir -p /var/lib/mosquitto && \
     touch /var/lib/mosquitto/.keep && \
     mkdir -p /etc/mosquitto.d && \
     apk update && \
-    apk add $buildDeps hiredis postgresql-libs libwebsockets libuuid c-ares libressl curl ca-certificates && \
+    apk add $buildDeps hiredis postgresql-libs libuuid c-ares libressl curl ca-certificates && \
+    git clone -b v2.4-stable https://libwebsockets.org/repo/libwebsockets && \
+    cd libwebsockets && \
+    cmake . && \
+    make install && \
+    cd .. && \
     git clone https://github.com/eclipse/mosquitto.git && \
     cd mosquitto && \
     git checkout ${MOSQUITTO_VERSION} -b ${MOSQUITTO_VERSION} && \
